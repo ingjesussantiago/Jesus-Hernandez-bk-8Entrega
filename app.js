@@ -9,26 +9,40 @@ import { Server } from "socket.io"
 import "./src/dao/mongoosedb/dbConfig.js"
 import session from "express-session"
 import cookieParser from "cookie-parser"
+import  FileStore from "session-file-store"
 
 
 
 
 
 const app = express()
-
+const fileStorage = FileStore(session)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser("secreto"))
+app.use(session({
+    store:new fileStorage({path:"./sessions",ttl:15, retries:0}),
+
+    secret:"secreto",
+    resave:true,
+    saveUninitialized:true
+}))
+
+app.engine("handlebars", handlebars.engine())
+app.set("views", __dirname + "/src/views")
+app.set("view engine", "handlebars")
+
+
 app.use(express.static(__dirname + "/src/public"))
 app.use("/api/carts", cartsRouter)
 app.use("/api/products", productosRouter)
 app.use("/login",loginRouter)
 app.use("/", viewRouter)
-app.use(session({
-    secret:"secreto",
-    resave:true,
-    saveUninitialized:true
-}))
+
+
+
+
+
 
 // app.get("/crearcoki",(req,res)=>{
 //     res.cookie("cookie4","primera",{maxAge:1000} ).send("prueba de cooki")
@@ -48,30 +62,6 @@ app.use(session({
 // app.get("/borrarcoki",(req,res)=>{
 //    res.clearCookie("cookie2").send("borrado")
 // })
-// const fileStorage = FileStore(session)
-
-
-
-
-
-// app.use(session({
-
-// // store:new fileStorage({path:"./session",ttl:15, retries:0}),
-
-
-//     secret: "Canvas",
-//     resave: false,
-//     saveUninitialized: true
-
-// }))
-
-
-app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "/src/views")
-app.set("view engine", "handlebars")
-
-
-
 const PORT = 8080
 
 const httpServer = app.listen(PORT, () => {

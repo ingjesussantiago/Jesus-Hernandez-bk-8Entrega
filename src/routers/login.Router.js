@@ -3,12 +3,17 @@ import { __dirname } from "../../utils.js"
 const router =Router()
 
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        const {name,apellido,contraseña,email}=req.body
-        console.log(name,apellido,contraseña,email);
-        console.log(req);
-        res.send(`bienvenido `)
+        const {nombre,contrasena}=req.body
+        console.log(nombre,contrasena);
+        req.session["nombre"]=nombre
+        req.session["contrasena"]=contrasena
+        
+
+
+        // console.log(req);
+        res.send(`bienvenido ${nombre}`)
     } catch (error) {
         console.log(error);
     }
