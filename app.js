@@ -9,19 +9,30 @@ import { Server } from "socket.io"
 import "./src/dao/mongoosedb/dbConfig.js"
 import session from "express-session"
 import cookieParser from "cookie-parser"
-import  FileStore from "session-file-store"
+// import  FileStore from "session-file-store"
+import MongoStore from "connect-mongo"
+import mongoose from "mongoose"
+
 
 
 
 
 
 const app = express()
-const fileStorage = FileStore(session)
+const URI = "mongodb+srv://ingjesussantiago:1BJqXKhkrqa9kOEM@cluster0.nwy2csb.mongodb.net/8Entregabk?retryWrites=true&w=majority"
+// const fileStorage = FileStore(session)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser("secreto"))
 app.use(session({
-    store:new fileStorage({path:"./sessions",ttl:15, retries:0}),
+    // store:new fileStorage({path:"./sessions",ttl:15, retries:0}),
+
+    store:MongoStore.create({
+
+            mongoUrl:URI,
+            mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+            ttl: 10*60
+    }),
 
     secret:"secreto",
     resave:true,
