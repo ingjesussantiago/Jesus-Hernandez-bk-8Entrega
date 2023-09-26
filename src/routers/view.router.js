@@ -42,7 +42,7 @@ router.get("/registro",(req,res)=>{
 router.get("/profile",(req,res)=>{
     res.render("profile")
 })
-router.get("/", async (req, res) => {
+router.get("/user", async (req, res) => {
     res.render("profile",{user:req.session.user})
     })
 

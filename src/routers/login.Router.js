@@ -7,12 +7,12 @@ router.post("/", async (req, res) => {
     try {
         const {nombre,contrasena}=req.body
         console.log(nombre,contrasena);
-        // req.session["nombre"]=nombre
-        // req.session["contrasena"]=contrasena
+        req.session["nombre"]=nombre
+        req.session["contrasena"]=contrasena
         
 
 
-        // console.log(req);
+        console.log(req);
         res.send(`bienvenido ${nombre}`)
     } catch (error) {
         console.log(error);
