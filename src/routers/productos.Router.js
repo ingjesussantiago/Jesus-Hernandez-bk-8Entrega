@@ -37,8 +37,9 @@ router.get("/", async (req, res) => {
     try {
         const productos = await ManagerProducto.getProduct()
         // res.render("formulario")
-        //  res.render("home", { productos })
-         res.json({ productos })
+        res.render("home", { productos , user:req.session.user })
+     
+        //  res.json({ productos })
     } catch (error) {
         console.log(error);
     }

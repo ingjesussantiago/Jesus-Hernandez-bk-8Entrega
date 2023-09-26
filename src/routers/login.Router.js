@@ -3,7 +3,7 @@ import { __dirname } from "../../utils.js"
 const router =Router()
 
 
-router.post("/", async (req, res) => {
+router.post("/prueba", async (req, res) => {
     try {
         const {nombre,contrasena}=req.body
         console.log(nombre,contrasena);

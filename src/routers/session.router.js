@@ -11,7 +11,7 @@ router.post("/registro", async (req, res) => {
     console.log("registrado");
     console.log(res.body);
 
-    const existe = await userModel.findOne({email})
+    const existe = await userModel.findOne({ email })
     if (existe) {
         return res.status(400).send({ status: "error", mensaje: "usuario ya existe" })
     }
@@ -33,9 +33,9 @@ router.post("/registro", async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    const { email, contrasena } = req.body;
+    const { email, contrasena } = req.body
 
-    const user = await userModel.findOne({email,contrasena})
+    const user = await userModel.findOne({ email, contrasena })
 
     if (!user)
         return res.status(401).send({ status: "error", error: "datos incorrectos" })
@@ -47,9 +47,16 @@ router.post("/login", async (req, res) => {
         edad: user.age
     }
 
-    res.send({ status: "succes", payload:req.session.user,mensaje:"primer logeo"})
+    res.send({ status: "succes", payload: req.session.user, mensaje: "primer logeo" })
 
 
+})
+
+router.get("/logout",(req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/login")
+        console.log("paso todo");
+    })
 })
 
 export default router
