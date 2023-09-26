@@ -31,9 +31,20 @@ router.get("/formularioIo",(req,res)=>{
     res.render("formularioProductoIo")
 })
 
+// vista de sesiones,registro, profile
+
 router.get("/login",(req,res)=>{
     res.render("login")
 })
+router.get("/registro",(req,res)=>{
+    res.render("registro")
+})
+router.get("/profile",(req,res)=>{
+    res.render("profile")
+})
+router.get("/", async (req, res) => {
+    res.render("profile",{user:req.session.user})
+    })
 
 
 

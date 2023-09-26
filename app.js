@@ -4,6 +4,7 @@ import productosRouter from "./src/routers/productos.Router.js"
 import viewRouter from "./src/routers/view.router.js"
 import cartsRouter from "./src/routers/carts.Router.js"
 import loginRouter from "./src/routers/login.Router.js"
+import sessionRouter from "./src/routers/session.router.js"
 import handlebars from "express-handlebars"
 import { Server } from "socket.io"
 import "./src/dao/mongoosedb/dbConfig.js"
@@ -47,7 +48,9 @@ app.set("view engine", "handlebars")
 app.use(express.static(__dirname + "/src/public"))
 app.use("/api/carts", cartsRouter)
 app.use("/api/products", productosRouter)
+app.use("/api/session",sessionRouter)
 app.use("/login",loginRouter)
+
 app.use("/", viewRouter)
 
 
