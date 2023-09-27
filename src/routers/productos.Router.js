@@ -59,9 +59,16 @@ router.get("/:id", async (req, res) => {
 
 })
 
+function auth(req, res, next) {
+    if (req.session.rol === administrador) {
+        return next()
+    } else {
+        return res.status(403).send('Usuario no autorizado para ingresar a este recurso..')
+    }
+}
 
 //pos para imagen
-router.post("/", uploader.single('file'), async (req, res) => {
+router.post("/", uploader.single('file') ,async (req, res) => {
     try {
         uploader.single("file")
         if (!req.file) {

@@ -21,7 +21,8 @@ router.post("/registro", async (req, res) => {
         apellido,
         email,
         edad,
-        contrasena
+        contrasena,
+   
     }
 
     const result = await userModel.create(user)
@@ -33,25 +34,30 @@ router.post("/registro", async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    const { email, contrasena } = req.body
-
-    const user = await userModel.findOne({ email, contrasena })
-
+    const { email, contrasena} = req.body
+    const user = await userModel.findOne({ email, contrasena}).lean()
+    
+ console.log("desde mongo",user);
     if (!user)
-        return res.status(401).send({ status: "error", error: "datos incorrectos" })
 
+        return res.status(401).send({ status: "error", error: "datos incorrectos" })
+    
     // alta a ssecion
     req.session.user = {
         nombre: `${user.nombre} ${user.apellido}`,
         email: user.email,
-        edad: user.age
+        edad: user.edad,
+             
     }
+    console.log("desde re",req.session.user);
 
-
-
-
-
-
+    if (email=== `adminCoder@coder.com` && contrasena===`1234`  ){
+        req.session.user.rol="administrador"
+                    
+     } else {
+        req.session.user.rol="usuario"
+    }
+console.log(req.session);
 
     res.send({ status: "succes", payload: req.session.user, mensaje: "primer logeo" })
 

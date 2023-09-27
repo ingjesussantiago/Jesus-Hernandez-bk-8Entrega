@@ -10,6 +10,7 @@ const schema = new mongoose.Schema({
         unique: true
     },
     edad: Number,
+    rol:String,
     contrasena: String 
 })
 
