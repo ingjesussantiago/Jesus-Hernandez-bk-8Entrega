@@ -9,7 +9,7 @@ const router = Router()
 router.post("/registro", async (req, res) => {
     const { nombre, apellido, email, edad, contrasena } = req.body;
     console.log("registrado");
-    console.log(res.body);
+    console.log(req.body);
 
     const existe = await userModel.findOne({ email })
     if (existe) {
@@ -42,10 +42,16 @@ router.post("/login", async (req, res) => {
 
     // alta a ssecion
     req.session.user = {
-        name: `${user.nombre} ${user.apellido}`,
+        nombre: `${user.nombre} ${user.apellido}`,
         email: user.email,
         edad: user.age
     }
+
+
+
+
+
+
 
     res.send({ status: "succes", payload: req.session.user, mensaje: "primer logeo" })
 
